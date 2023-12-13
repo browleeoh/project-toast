@@ -7,6 +7,16 @@ export const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
 
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setToasts([]);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   function dismissToast(id) {
     const nextToasts = toasts.filter((toast) => toast.id !== id);
     setToasts(nextToasts);
